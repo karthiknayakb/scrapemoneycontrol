@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 #link1 = "http://www.moneycontrol.com/india/stockpricequote/cementmajor/acc/ACC06"
 import time
 import json
-
+import csv
 
 #headers
 bseHead = ['bselow52','bsehigh52','bseCurrPrice','bseVolume','bseTdayLow','bseTdayHig','buyPercent','companyName']
@@ -64,24 +64,39 @@ def getCurrBseNseDetails(link):
 code to get the links of all shares from csv goes here.
 has to be stored in "shares" variable
 '''
-shares = ['http://www.moneycontrol.com/india/stockpricequote/diversified/3mindia/MI42',
-'http://www.moneycontrol.com/india/stockpricequote/computerssoftware/8kmilessoftwareservices/PMS01',
-'http://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
-'http://www.moneycontrol.com/india/stockpricequote/oildrillingandexploration/abanoffshore/AO04',
-'http://www.moneycontrol.com/india/stockpricequote/infrastructuregeneral/abbindia/ABB',
-'http://www.moneycontrol.com/india/stockpricequote/pharmaceuticals/abbottindia/AI51',
-'http://www.moneycontrol.com/india/stockpricequote/cementmajor/acc/ACC06',
-'http://www.moneycontrol.com/india/stockpricequote/trading/adanienterprises/AE13',
-'http://www.moneycontrol.com/india/stockpricequote/infrastructuregeneral/adaniportsspecialeconomiczone/MPS',
-'http://www.moneycontrol.com/india/stockpricequote/powergenerationdistribution/adanipower/AP11']
+shares = []
+csvfile = open("shareLinks.csv","rb")
+reader = csv.reader(csvfile)
+c = 0
+for r in reader:
+	shares.append(r[1])
+	c+=1
+	if c>=10:
+		break
+csvfile.close()
+
+#print shares
+
+# shares = ['http://www.moneycontrol.com/india/stockpricequote/diversified/3mindia/MI42',
+# 'http://www.moneycontrol.com/india/stockpricequote/computerssoftware/8kmilessoftwareservices/PMS01',
+# 'http://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45',
+# 'http://www.moneycontrol.com/india/stockpricequote/oildrillingandexploration/abanoffshore/AO04',
+# 'http://www.moneycontrol.com/india/stockpricequote/infrastructuregeneral/abbindia/ABB',
+# 'http://www.moneycontrol.com/india/stockpricequote/pharmaceuticals/abbottindia/AI51',
+# 'http://www.moneycontrol.com/india/stockpricequote/cementmajor/acc/ACC06',
+# 'http://www.moneycontrol.com/india/stockpricequote/trading/adanienterprises/AE13',
+# 'http://www.moneycontrol.com/india/stockpricequote/infrastructuregeneral/adaniportsspecialeconomiczone/MPS',
+# 'http://www.moneycontrol.com/india/stockpricequote/powergenerationdistribution/adanipower/AP11']
 
 ##############################
 '''
 retrives the data of individual share (BSE and NSE), stores in dictionary, stores in json file.
 '''
+import datetime
+filename = str(datetime.datetime.now()).split()[0].replace("-","")+".json"
 start_time = time.clock()
 finalOut = {}
-file = open("finalOut.json","wb")
+file = open(filename,"wb")
 for i in shares:
 	print i
 	res = getCurrBseNseDetails(i)
