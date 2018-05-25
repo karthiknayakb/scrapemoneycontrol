@@ -71,8 +71,8 @@ c = 0
 for r in reader:
 	shares.append(r[1])
 	c+=1
-	if c>=10:
-		break
+	#if c>=10:
+		#break
 csvfile.close()
 
 #print shares
@@ -99,10 +99,13 @@ finalOut = {}
 file = open(filename,"wb")
 for i in shares:
 	print i
-	res = getCurrBseNseDetails(i)
-	bseDic = {bseHead[0]:res[0][0],bseHead[1]:res[0][1],bseHead[2]:res[0][2],bseHead[3]:res[0][3],bseHead[4]:res[0][4],bseHead[5]:res[0][5],bseHead[6]:res[0][6],bseHead[7]:res[0][7]}
-	nseDic = {nseHead[0]:res[1][0],nseHead[1]:res[1][1],nseHead[2]:res[1][2],nseHead[3]:res[1][3],nseHead[4]:res[1][4],nseHead[5]:res[1][5],nseHead[6]:res[1][6],nseHead[7]:res[1][7]}
-	finalOut[res[0][7]] = [bseDic,nseDic]
+	try:
+		res = getCurrBseNseDetails(i)
+		bseDic = {bseHead[0]:res[0][0],bseHead[1]:res[0][1],bseHead[2]:res[0][2],bseHead[3]:res[0][3],bseHead[4]:res[0][4],bseHead[5]:res[0][5],bseHead[6]:res[0][6],bseHead[7]:res[0][7]}
+		nseDic = {nseHead[0]:res[1][0],nseHead[1]:res[1][1],nseHead[2]:res[1][2],nseHead[3]:res[1][3],nseHead[4]:res[1][4],nseHead[5]:res[1][5],nseHead[6]:res[1][6],nseHead[7]:res[1][7]}
+		finalOut[res[0][7]] = [bseDic,nseDic]
+	except:
+		print "exception occured for link "+i
 json.dump(finalOut,file)
 file.close()
 print time.clock() - start_time, "seconds"
