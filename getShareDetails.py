@@ -105,7 +105,9 @@ for i in shares:
 		nseDic = {nseHead[0]:res[1][0],nseHead[1]:res[1][1],nseHead[2]:res[1][2],nseHead[3]:res[1][3],nseHead[4]:res[1][4],nseHead[5]:res[1][5],nseHead[6]:res[1][6],nseHead[7]:res[1][7]}
 		finalOut[res[0][7]] = [bseDic,nseDic]
 	except:
-		print "exception occured for link "+i
+		errorlog = open("errorlog.log","a")
+		errorlog.write("exception occured for link "+i)
+		errorlog.close()
 json.dump(finalOut,file)
 file.close()
 print time.clock() - start_time, "seconds"
