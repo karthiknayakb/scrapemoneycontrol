@@ -94,9 +94,9 @@ retrives the data of individual share (BSE and NSE), stores in dictionary, store
 '''
 import datetime
 filename = str(datetime.datetime.now()).split()[0].replace("-","")+".json"
-start_time = time.clock()
 finalOut = {}
-file = open(filename,"wb")
+file = open("data/"+filename,"wb")
+errorlog = open("error/"+filename+".log","a")
 for i in shares:
 	print i
 	try:
@@ -105,12 +105,10 @@ for i in shares:
 		nseDic = {nseHead[0]:res[1][0],nseHead[1]:res[1][1],nseHead[2]:res[1][2],nseHead[3]:res[1][3],nseHead[4]:res[1][4],nseHead[5]:res[1][5],nseHead[6]:res[1][6],nseHead[7]:res[1][7]}
 		finalOut[res[0][7]] = [bseDic,nseDic]
 	except:
-		errorlog = open("errorlog.log","a")
-		errorlog.write("exception occured for link "+i)
-		errorlog.close()
+		errorlog.write(str(datetime.datetime.now()).split()[0].replace("-",":")+" "+str(datetime.datetime.time(datetime.datetime.now())).split()[0].replace("-","")+" : "+i+"\n")
 json.dump(finalOut,file)
 file.close()
-print time.clock() - start_time, "seconds"
+
 
 #print getCurrBseNseDetails('http://www.moneycontrol.com/india/stockpricequote/chemicals/aartiindustries/AI45')
 # res = [['810.00', '1358.95', '1292.40', '565', '1292.05', '1307.00', '100', 'Aarti Industries Ltd.'], 
@@ -122,3 +120,6 @@ print time.clock() - start_time, "seconds"
 # finalOut[res[0][7]] = [bseDic,nseDic]
 # json.dump(finalOut,open("finalOut.json","wb"))
 # print finalOut
+
+
+#str(datetime.datetime.now()).split()[0].replace("-",":")+" "+str(datetime.datetime.time(datetime.datetime.now())).split()[0].replace("-","")

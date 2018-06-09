@@ -4,7 +4,7 @@ link = "http://www.moneycontrol.com/india/stockpricequote/"
 import json
 
 page = urllib2.urlopen(link)
-soup = BeautifulSoup(page,"lxml")
+soup = BeautifulSoup(page)
 table = soup.find("table",{"class":"pcq_tbl"})
 rows = table.findAll('tr')
 m = 0;
@@ -18,3 +18,4 @@ for tr in rows:
 		m+=1
 #print shareLinks
 print "shareLinks = ",m
+file.close()
